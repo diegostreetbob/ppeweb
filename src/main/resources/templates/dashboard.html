@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Responsive Bootstrap 4 Admin &amp; Dashboard Template">
+	<meta name="author" content="Bootlab">
+	<title>People Presence Estimator Dashboard</title>
+	<link rel="canonical" href="https://appstack.bootlab.io/charts-chartjs.html" />
+	<link rel="shortcut icon" th:href="@{/img/favicon.ico}">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+	<link th:href="@{css/light.css}" rel="stylesheet">
+</head>
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+	<div class="main">
+		<nav class="navbar navbar-expand navbar-light navbar-bg">
+			<ul class="navbar-nav">
+				<li class="nav-item px-0 dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i id="snf-filter-icon" class="align-middle mr-1 fas fa-fw fa-filter"></i>
+						<span id="snf-txt" class="align-middle">Sniffer</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-left dropdown-mega" aria-labelledby="servicesDropdown">
+						<div class="d-md-flex align-items-start justify-content-start">
+							<div class="dropdown-mega-list">
+								<a onclick="setSniffer(1)" class="dropdown-item" href="#">Mi casa, salón</a>
+								<a onclick="setSniffer(3)" class="dropdown-item" href="#">Casa padres, fachada</a>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="nav-item px-0 dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i id="mes-filter-icon" class="align-middle mr-1 fas fa-fw fa-filter"></i>
+						<span id="mes-txt" class="align-middle">Mes</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-left dropdown-mega" aria-labelledby="servicesDropdown">
+						<div class="d-md-flex align-items-start justify-content-start">
+							<div class="dropdown-mega-list">
+								<a id="bt-m1" onclick="setMonth(1)" class="dropdown-item">Enero</a>
+								<a id="bt-m2" onclick="setMonth(2)" class="dropdown-item">Febrero</a>
+								<a id="bt-m3" onclick="setMonth(3)" class="dropdown-item">Marzo</a>
+								<a id="bt-m4" onclick="setMonth(4)" class="dropdown-item">Abril</a>
+								<a id="bt-m5" onclick="setMonth(5)" class="dropdown-item">Mayo</a>
+								<a id="bt-m6" onclick="setMonth(6)" class="dropdown-item">Junio</a>
+								<a id="bt-m7" onclick="setMonth(7)" class="dropdown-item">Julio</a>
+								<a id="bt-m8" onclick="setMonth(8)" class="dropdown-item">Agosto</a>
+								<a id="bt-m9" onclick="setMonth(9)" class="dropdown-item">Septiembre</a>
+								<a id="bt-m10" onclick="setMonth(10)" class="dropdown-item">Octubre</a>
+								<a id="bt-m11" onclick="setMonth(11)" class="dropdown-item">Noviembre</a>
+								<a id="bt-m12" onclick="setMonth(12)" class="dropdown-item">Diciembre</a>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="nav-item px-0 dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i id="ano-filter-icon" class="align-middle mr-1 fas fa-fw fa-filter"></i>
+						<span id="ano-txt" class="align-middle">Año</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-left dropdown-mega" aria-labelledby="servicesDropdown">
+						<div class="d-md-flex align-items-start justify-content-start">
+							<div class="dropdown-mega-list">
+								<a id="bt-y2022" onclick="setYear(2022)" class="dropdown-item">2022</a>
+								<a id="bt-y2023" onclick="setYear(2023)" class="dropdown-item">2023</a>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div id="load-spinner" class="spinner-grow" role="status"></div>
+			<div class="navbar-collapse">
+				<ul class="navbar-nav navbar-align">
+					<li class="nav-item">
+						<a class="nav-link d-none d-sm-inline-block" data-toggle="dropdown">
+							<img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded-circle mr-1"/> <span class="text-dark">Diego Martínez</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-flag" id="languageDropdown" data-toggle="dropdown">
+							<img src="img/flags/es.png" />
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<main class="content">
+			<div class="container-fluid p-0">
+				<h1 class="h3 mb-3 text-primary">Dashboard</h1>
+				<div class="row">
+					<div class="col-12 col-lg-6">
+						<div class="card flex-fill">
+							<div class="card-body">
+								<div class="row">
+									<div class="col mt-0">
+										<h5 class="card-title">Máxima presencia en el mes</h5>
+									</div>
+									<div class="col-auto">
+										<div class="stat stat-sm">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users align-middle">
+												<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+												<circle cx="9" cy="7" r="4"></circle>
+												<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+												<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+											</svg>
+										</div>
+									</div>
+								</div>
+								<span id="max-month" class="h1 d-inline-block mt-1 mb-4">--</span>
+								<div class="mb-0">
+									<span id="month_year" class="badge badge-soft-success mr-2"> <i class="mdi mdi-arrow-bottom-right"></i> -- </span>
+									<span id="month_year-label" class="text-muted">Mes y año consultados</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-lg-6">
+						<div class="card flex-fill">
+							<div class="card-body">
+								<div class="row">
+									<div class="col mt-0">
+										<h5 class="card-title">Máxima presencia en el día</h5>
+									</div>
+									<div class="col-auto">
+										<div class="stat stat-sm">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users align-middle">
+												<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+												<circle cx="9" cy="7" r="4"></circle>
+												<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+												<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+											</svg>
+										</div>
+									</div>
+								</div>
+								<span id="max-day" class="h1 d-inline-block mt-1 mb-4">--</span>
+								<div class="mb-0">
+									<span id="day-week" class="badge badge-soft-success mr-2"> <i class="mdi mdi-arrow-bottom-right"></i> -- </span>
+									<span id="month-day-label" class="text-muted">Día consultado</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-lg-6">
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title d-flex justify-content-between align-items-center">Masa personas:día del mes</h5>
+								<h6 class="card-subtitle text-muted">Muestra de la masa de personas por día (sumatorio de todas las franjas horarias), a lo largo del mes</h6>
+							</div>
+							<div class="card-body">
+								<div class="chart">
+									<canvas id="paxdaychart"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-lg-6">
+						<div class="card flex-fill w-100">
+							<div class="card-header">
+								<h5 class="card-title d-flex justify-content-between align-items-center">Masa personas:hora</h5>
+								<h6 class="card-subtitle text-muted">Muestra de la masa de personas por hora a lo largo del día</h6>
+							</div>
+							<div class="card-body">
+								<div class="chart">
+									<canvas id="paxhourchart"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer class="footer">
+			<div class="container-fluid">
+				<div class="row text-muted">
+					<div class="col-6 text-left">
+						<form method="POST" th:action="@{/logout}">
+							<a href="#" onclick="this.parentNode.submit();">Logout</a>
+							<span class="text-muted">Trabajo fin de grado en ingeniería informática.UCAM-Universidad Católica San Antonio de Murcia</span>
+						</form>
+
+					</div>
+					<div class="col-6 text-right">
+						<p class="mb-0">
+							<span class="text-muted">Licencia</span>
+							© 2022 - <a href="mailto:dmartinez17@alu.ucam.edu" class="text-muted">Diego Martínez Guillén</a>
+							<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+								<img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png">
+							</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	</div>
+
+	<script th:src="@{/js/app.js}"></script>
+	<script th:src="@{/js/dashboard.js}"></script>
+
+</body>
+
+</html>
